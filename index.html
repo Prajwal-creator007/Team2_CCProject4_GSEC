@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>etcd Operations Interface</title>
+</head>
+<body>
+    <h2>Available Keys</h2>
+    <div id="keys-list">{{ keys_list }}</div>
+
+
+    <h2>etcd Operations</h2>
+    <form method="post">
+        Key: <input type="text" name="key"><br>
+        Value: <input type="text" name="value"><br>
+        <input type="submit" name="put" value="Put">
+    </form>
+    <br>
+    <form method="post">
+        Key: <input type="text" name="key"><br>
+        <input type="submit" name="get" value="Get">
+    </form>
+    <br>
+    <form method="post">
+        Key: <input type="text" name="key"><br>
+        <input type="submit" name="delete" value="Delete">
+    </form>
+
+    {% if result %}
+    <div style="margin-top: 20px;">
+        <strong>Result:</strong>
+        <p>{{ result }}</p>
+    </div>
+    {% endif %}
+    
+
+</body>
+</html>
+
+
