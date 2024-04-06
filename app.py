@@ -47,12 +47,13 @@ def put_key_value(key, value):
         return f"Failed to put {key}: {e}"
 
 def delete_key(key):
-    #key = request.form['key']
     try:
-        etcd.delete(key)
-        return f"Deleted key: {key}"
-    except etcd3.exceptions.KeyNotFoundError:
-        return f"Key {key} not found."
+        value, _ = etcd.get(key)
+        if value:
+            etcd.delete(key)
+            return f"Deleted key: {key}"
+        else:
+            return f"Key {key} not found."
     except etcd3.exceptions.ConnectionFailedError as e:
         return f"Connection to etcd server failed: {e}"
     except Exception as e:
