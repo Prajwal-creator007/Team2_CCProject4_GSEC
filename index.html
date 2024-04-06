@@ -1,38 +1,50 @@
+# The user interface is provided through a basic HTML form rendered using Flask.
+# It serves as a simple user interface for interacting with
+# the distributed key-value store using etcd as the backend storage.
+# It allows users to perform operations like put, get, and delete on key-value pairs.
+
 <!DOCTYPE html>
 <html>
 <head>
     <title>etcd Operations Interface</title>
 </head>
 <body>
+    
+    <!-- Display section for available keys -->
     <h2>Available Keys</h2>
     <div id="keys-list">{{ keys_list }}</div>
 
-
+    <!-- Form section for etcd operations -->
     <h2>etcd Operations</h2>
+    
+    <!-- Form for putting a key-value pair into etcd -->
     <form method="post">
         Key: <input type="text" name="key"><br>
         Value: <input type="text" name="value"><br>
         <input type="submit" name="put" value="Put">
     </form>
     <br>
+    
+    <!-- Form for getting the value of a specific key from etcd -->
     <form method="post">
         Key: <input type="text" name="key"><br>
         <input type="submit" name="get" value="Get">
     </form>
     <br>
+    
+    <!-- Form for deleting a key from etcd -->
     <form method="post">
         Key: <input type="text" name="key"><br>
         <input type="submit" name="delete" value="Delete">
     </form>
 
+    <!-- Section to display the result of operations -->
     {% if result %}
     <div style="margin-top: 20px;">
         <strong>Result:</strong>
         <p>{{ result }}</p>
     </div>
     {% endif %}
-    
-
 </body>
 </html>
 
