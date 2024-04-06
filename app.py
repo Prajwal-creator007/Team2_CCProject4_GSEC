@@ -1,3 +1,10 @@
+# This Flask application serves as a simple user interface for interacting with
+# the distributed key-value store using etcd as the backend storage.
+# It allows users to perform operations like put, get, and delete on key-value pairs.
+# The user interface is provided through a basic HTML form rendered using Flask.
+# Error handling is incorporated to deal with potential issues during interaction
+# with the etcd cluster.
+
 from flask import Flask, render_template, request
 import etcd3
 
@@ -23,7 +30,15 @@ def index():
     return render_template('index.html', result=result, keys_list=keys_list)
 
 def get_value(key):
-    #key = request.form['key']
+     """
+    Retrieves the value associated with the given key from etcd.
+
+    Args:
+        key (str): The key to retrieve the value for.
+
+    Returns:
+        str: A message indicating success or failure along with the value if found.
+    """
     try:
         value, _ = etcd.get(key)
         if value:
@@ -36,8 +51,16 @@ def get_value(key):
         return f"Failed to get {key}: {e}"
 
 def put_key_value(key, value):
-    #key = request.form['key']
-    #value = request.form['value']
+    """
+    Puts a key-value pair into etcd.
+
+    Args:
+        key (str): The key to be stored.
+        value (str): The value to be associated with the key.
+
+    Returns:
+        str: A message indicating success or failure.
+    """
     try:
         etcd.put(key, value)
         return f"Put {key}: {value}"
@@ -47,6 +70,15 @@ def put_key_value(key, value):
         return f"Failed to put {key}: {e}"
 
 def delete_key(key):
+    """
+    Deletes a key-value pair from etcd.
+
+    Args:
+        key (str): The key to be deleted.
+
+    Returns:
+        str: A message indicating success or failure.
+    """
     try:
         value, _ = etcd.get(key)
         if value:
@@ -60,6 +92,12 @@ def delete_key(key):
         return f"Failed to delete {key}: {e}"
 
 def list_keys():
+     """
+    Lists all keys stored in etcd.
+
+    Returns:
+        str: A message listing all keys or indicating no keys found.
+    """
     try:
         keys = [metadata.key.decode('utf-8') for value, metadata in etcd.get_all()]
         if keys:
